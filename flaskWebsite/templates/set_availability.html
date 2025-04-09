@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Set Availability{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Set Availability</h1>
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('set_availability') }}">
+                        <div class="mb-3">
+                            <label for="date_time_start" class="form-label">Start Date and Time</label>
+                            <input type="datetime-local" name="date_time_start" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="date_time_end" class="form-label">End Date and Time</label>
+                            <input type="datetime-local" name="date_time_end" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Add Availability</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

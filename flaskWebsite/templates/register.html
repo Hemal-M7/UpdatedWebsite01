@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Register</h1>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('register') }}">
+                        <!-- Username Field -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" name="username" class="form-control" id="username" required>
+                        </div>
+                        
+                        <!-- Password Field -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" class="form-control" id="password" required>
+                        </div>
+                        
+                        <!-- Role Selection -->
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select name="role" id="role" class="form-select" required>
+                                <option value="patient">Patient</option>
+                                <option value="doctor">Doctor</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Specialization Field -->
+                        <div class="mb-3" id="specialization-field" style="display: none;">
+                            <label for="specialization" class="form-label">Specialization</label>
+                            <input type="text" name="specialization" class="form-control" id="specialization">
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Show specialization field only if "doctor" is selected
+    document.querySelector('#role').addEventListener('change', function() {
+        const specializationField = document.getElementById('specialization-field');
+        specializationField.style.display = this.value === 'doctor' ? 'block' : 'none';
+    });
+</script>
+{% endblock %}

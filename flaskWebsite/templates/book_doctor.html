@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Book an Appointment{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Book an Appointment</h1>
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <!-- Doctor Selection Form -->
+                    <form method="GET" action="{{ url_for('book') }}">
+                        <div class="mb-3">
+                            <label for="doctor_id" class="form-label">Select a Doctor</label>
+                            <select name="doctor_id" id="doctor_id" class="form-select" onchange="this.form.submit();" required>
+                                <option value="">--Choose a Doctor--</option>
+                                {% for doctor in doctors %}
+                                <option value="{{ doctor.id }}" {% if request.args.get('doctor_id') == doctor.id|string %}selected{% endif %}>
+                                    {{ doctor.username }} - {{ doctor.specialization }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </form>
+
+                    <!-- Available Time Slots -->
+                    {% if available_slots %}
+                    <div class="mb-3">
+                        <h4>Available Time Slots:</h4>
+                        <ul class="list-group">
+                            {% for slot in available_slots %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>{{ slot.start.strftime('%A, %d %B %Y') }}</strong> <br>
+                                    {{ slot.start.strftime('%I:%M %p') }} - {{ slot.end.strftime('%I:%M %p') }}
+                                </span>
+                                <form method="POST" action="{{ url_for('book', doctor_id=request.args.get('doctor_id')) }}">
+                                    <input type="hidden" name="date_time" value="{{ slot.start.strftime('%Y-%m-%dT%H:%M') }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Book</button>
+                                </form>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">No available slots for the selected doctor.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

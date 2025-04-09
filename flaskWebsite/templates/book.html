@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Appointment Time{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">Select Appointment Time</h1>
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Available Time Slots</h3>
+                </div>
+                <div class="card-body">
+                    {% if availability_slots %}
+                        <form method="POST" action="{{ url_for('book') }}">
+                            <!-- Hidden input for doctor ID -->
+                            <input type="hidden" name="doctor_id" value="{{ doctor_id }}">
+
+                            <div class="mb-3">
+                                <label for="date_time" class="form-label">Choose a Time Slot</label>
+                                <select name="date_time" class="form-select" required>
+                                    {% for slot in availability_slots %}
+                                        <!-- Format datetime correctly for form submission -->
+                                        <option value="{{ slot.date_time_start.strftime('%Y-%m-%dT%H:%M') }}">
+                                            {{ slot.date_time_start.strftime('%Y-%m-%d %H:%M') }} to {{ slot.date_time_end.strftime('%Y-%m-%d %H:%M') }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+                        </form>
+                    {% else %}
+                        <p class="text-muted text-center">No availability slots for this doctor.</p>
+                        <a href="{{ url_for('book') }}" class="btn btn-secondary w-100">Choose Another Doctor</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

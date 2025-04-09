@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Edit Medical Records for {{ patient.username }}</h1>
+<form method="POST" class="form-container">
+    <div class="form-group">
+        <label for="diagnosis">Diagnosis:</label>
+        <textarea name="diagnosis" id="diagnosis" class="form-control" required>{{ record.diagnosis or "" }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="treatment_plan">Treatment Plan:</label>
+        <textarea name="treatment_plan" id="treatment_plan" class="form-control">{{ record.treatment_plan or "" }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="notes">Notes:</label>
+        <textarea name="notes" id="notes" class="form-control">{{ record.notes or "" }}</textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Record</button>
+</form>
+{% endblock %}
